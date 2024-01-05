@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResource('/categories', CategoryApiController::class);
 Route::apiResource('/articles', ArticleApiController::class);
+//Route::put('/articles/{id}', [ArticleApiController::class, 'update']);

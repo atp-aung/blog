@@ -7,7 +7,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
+    
     use HasFactory;
+    protected $fillable = [
+        'title',
+        'body',
+        'category_id',
+        // Add other fields as needed
+    ];
 public function category()
 {
 return $this->belongsTo('App\Models\Category');

@@ -30,7 +30,7 @@ class ArticleApiController extends Controller
     $article->body = $request->input('body');
     $article->category_id = $request->input('category_id');
     $article->save();
-
+    
  $articleId = $article->getKey();
     // Load the category details
     $category = Category::find($request->input('category_id'));
@@ -45,8 +45,8 @@ class ArticleApiController extends Controller
             // Add other category fields if needed
         ],              
     ];
-    
     return response()->json(['newArtFacts' => $articleData], 201);
+    //return response()->json(['newArtFacts' => $articles], 201);
     }
 
     /**
@@ -74,9 +74,21 @@ class ArticleApiController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, string $updid)
     {
-        //
+        try {
+            // Find the article by ID
+            $article = Article::findOrFail($updid);
+            $article->title=request()->title;
+            $article->body=request()->body;
+            $article->category_id=request()->category_id;
+            $article->update();
+            $articles = Article::with('category')->get();            
+            return response()->json(['message' => 'Article updated successfully', 'updated' => $articles], 200);
+        } catch (\Exception $e) {
+            // Handle any errors that might occur during the update process
+            return response()->json(['message' => 'Error updating article', 'error' => $e->getMessage()], 500);
+        }
     }
 
     /**

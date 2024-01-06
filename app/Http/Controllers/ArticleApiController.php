@@ -99,6 +99,8 @@ class ArticleApiController extends Controller
         //
         $article = Article::find($id);
         $article->delete();
-        return Article::all();
+        //return Article::all();
+        $articles = Article::with('category')->get();
+        return $articles;
     }
 }
